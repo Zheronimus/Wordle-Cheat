@@ -10,6 +10,7 @@ public class PossibleWords extends ArrayList<String> {
         this.addAll(wordsList);
     }
 
+    // NEED TO CHECK IF GUESS CONTAINS DUPLICATE CHARACTERS AND ONE OF THE CHARACTER IS A "1" AND ONE IS A "2"!!!
     public void trimList(UserGuess userGuess) {
 
         for (String word : wordsList) {
@@ -38,8 +39,6 @@ public class PossibleWords extends ArrayList<String> {
                         this.remove(word);
                         break;
                     }
-
-                    // NEED TO CHECK IF GUESS CONTAINS DUPLICATE CHARACTERS AND ONE OF THE CHARACTER IS A "1" AND ONE IS A "2"!!!
                 }
             }
         }
