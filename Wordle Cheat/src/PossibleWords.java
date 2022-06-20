@@ -39,7 +39,7 @@ public class PossibleWords extends ArrayList<String> {
                         break;
                     }
 
-                    // NEED TO CHECK IF GUESS CONTAINS DUPLICATE AND ONE OF THE CHARACTER IS A "1" AND ONE IS A "2"!!!
+                    // NEED TO CHECK IF GUESS CONTAINS DUPLICATE CHARACTERS AND ONE OF THE CHARACTER IS A "1" AND ONE IS A "2"!!!
                 }
             }
         }
