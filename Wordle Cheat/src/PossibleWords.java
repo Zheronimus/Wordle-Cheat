@@ -29,6 +29,7 @@ public class PossibleWords extends ArrayList<String> {
                             if (hasDuplicateChars(userGuess.getUserGuess())) {
                                 if (!duplicateMatch(userGuessChar, userGuess.getUserGuess(), word)) {
                                     this.remove(word);
+                                    break;
                                 }
                             } else {
                                 if (!word.contains(userGuessChar.toUpperCase())) {
