@@ -1,21 +1,24 @@
-import java.util.*;
+import java.util.ArrayList;
 
 public class PossibleWords extends ArrayList<String> {
 
     final private WordsList wordsList;
+    private UserGuess userGuess;
 
-    public PossibleWords() {
+    public PossibleWords(UserGuess userGuess) {
 
         wordsList = new WordsList();
         this.addAll(wordsList);
+        this.userGuess = userGuess;
     }
 
-    // NEED TO CHECK IF GUESS CONTAINS DUPLICATE CHARACTERS AND ONE OF THE CHARACTER IS A "1" AND ONE IS A "2"!!!
-    public void trimList(UserGuess userGuess) {
+    public void trimList() {
 
         for (String word : wordsList) {
             for (int i = 0; i < word.length(); i++) {
-                if (Character.toString(word.charAt(i)).equalsIgnoreCase(Character.toString(userGuess.getUserGuess().charAt(i)))) {
+                String userGuessChar = Character.toString(userGuess.getUserGuess().charAt(i));
+
+                if (Character.toString(word.charAt(i)).equalsIgnoreCase(userGuessChar)) {
                     if (userGuess.getGuessRes()[i] != 1) {
                         this.remove(word);
                         break;
@@ -23,14 +26,20 @@ public class PossibleWords extends ArrayList<String> {
                 } else {
                     if (userGuess.getGuessRes()[i] != 1) {
                         if (userGuess.getGuessRes()[i] == 2) {
-                            if (!word.contains(Character.toString(userGuess.getUserGuess().charAt(i)).toUpperCase())) {
-                                this.remove(word);
-                                break;
+                            if (hasDuplicateChars(userGuess.getUserGuess())) {
+                                if (!duplicateMatch(userGuessChar, userGuess.getUserGuess(), word)) {
+                                    this.remove(word);
+                                }
+                            } else {
+                                if (!word.contains(userGuessChar.toUpperCase())) {
+                                    this.remove(word);
+                                    break;
+                                }
                             }
                         }
 
-                        else if (userGuess.getGuessRes()[i] == 0 && !hasDuplicateChars(word, userGuess)) {
-                            if (word.contains(Character.toString(userGuess.getUserGuess().charAt(i)).toUpperCase())) {
+                        else if (userGuess.getGuessRes()[i] == 0 && !hasDuplicateChars(userGuess.getUserGuess())) {
+                            if (word.contains(userGuessChar.toUpperCase())) {
                                 this.remove(word);
                                 break;
                             }
@@ -44,11 +53,11 @@ public class PossibleWords extends ArrayList<String> {
         }
     }
 
-    private boolean hasDuplicateChars(String word, UserGuess userGuess) {
+    private boolean hasDuplicateChars(String word) {
 
         for (int i = 0; i < word.length(); i++) {
             for (int j = i + 1; j < word.length(); j++) {
-                if (Character.toString(userGuess.getUserGuess().charAt(i)).equalsIgnoreCase(Character.toString(word.charAt(j)))) {
+                if (Character.toString(word.charAt(i)).equalsIgnoreCase(Character.toString(word.charAt(j)))) {
                     if (userGuess.getGuessRes()[i] != 0 || userGuess.getGuessRes()[j] != 0) {
                         return true;
                     }
@@ -57,6 +66,14 @@ public class PossibleWords extends ArrayList<String> {
         }
 
         return false;
+    }
+
+    private boolean duplicateMatch(String dupLetter, String userGuess, String word) {
+
+        int guessDupCount = userGuess.length() - userGuess.replaceAll(dupLetter, "").length();
+        int wordDupCount = word.length() - word.toLowerCase().replaceAll(dupLetter, "").length();
+
+        return guessDupCount == wordDupCount;
     }
 
     public void displayPossibleWords() {
