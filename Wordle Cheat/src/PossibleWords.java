@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class PossibleWords extends ArrayList<String> {
 
-    final private WordsList wordsList;
-    private UserGuess userGuess;
+    private final WordsList wordsList;
+    private final UserGuess userGuess;
 
     public PossibleWords(UserGuess userGuess) {
 
@@ -31,15 +31,15 @@ public class PossibleWords extends ArrayList<String> {
                                     this.remove(word);
                                     break;
                                 }
-                            } else {
-                                if (!word.contains(userGuessChar.toUpperCase())) {
-                                    this.remove(word);
-                                    break;
-                                }
+                            }
+
+                            if (!word.contains(userGuessChar.toUpperCase())) {
+                                this.remove(word);
+                                break;
                             }
                         }
 
-                        else if (userGuess.getGuessRes()[i] == 0 && !hasDuplicateChars(userGuess.getUserGuess())) {
+                        else if (userGuess.getGuessRes()[i] == 0) {
                             if (word.contains(userGuessChar.toUpperCase())) {
                                 this.remove(word);
                                 break;
